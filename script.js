@@ -53,17 +53,14 @@ document.addEventListener('click', (e) => {
 navLinks.forEach(link => {
     link.addEventListener('click', (e) => {
         const href = link.getAttribute('href');
-        
         // Only handle anchor links
         if (href.startsWith('#')) {
             e.preventDefault();
             const targetId = href.substring(1);
             const targetSection = document.getElementById(targetId);
-            
             if (targetSection) {
                 const headerHeight = header.offsetHeight;
                 const targetPosition = targetSection.offsetTop - headerHeight;
-                
                 window.scrollTo({
                     top: targetPosition,
                     behavior: 'smooth'
@@ -77,16 +74,13 @@ navLinks.forEach(link => {
 document.querySelectorAll('.btn').forEach(btn => {
     btn.addEventListener('click', (e) => {
         const href = btn.getAttribute('href');
-        
         if (href && href.startsWith('#')) {
             e.preventDefault();
             const targetId = href.substring(1);
             const targetSection = document.getElementById(targetId);
-            
             if (targetSection) {
                 const headerHeight = header.offsetHeight;
                 const targetPosition = targetSection.offsetTop - headerHeight;
-                
                 window.scrollTo({
                     top: targetPosition,
                     behavior: 'smooth'
@@ -104,12 +98,12 @@ const navLinksArray = Array.from(navLinks);
 
 function updateActiveNavLink() {
     const scrollPosition = window.scrollY + header.offsetHeight + 100;
-    
-    sections.forEach((section, index) => {
+
+    sections.forEach((section) => {
         const sectionTop = section.offsetTop;
         const sectionHeight = section.offsetHeight;
         const sectionId = section.getAttribute('id');
-        
+
         if (scrollPosition >= sectionTop && scrollPosition < sectionTop + sectionHeight) {
             navLinksArray.forEach(link => {
                 link.classList.remove('active');
@@ -119,7 +113,7 @@ function updateActiveNavLink() {
             });
         }
     });
-    
+
     // Handle home/hero section
     if (window.scrollY < 100) {
         navLinksArray.forEach(link => {
@@ -161,7 +155,6 @@ document.querySelectorAll('.section, .value-card, .service-card, .feature-card, 
 // ============================================
 productCategories.forEach(category => {
     const header = category.querySelector('.product-category-header');
-    
     header.addEventListener('click', () => {
         const isActive = category.classList.contains('active');
         
@@ -180,8 +173,6 @@ productCategories.forEach(category => {
 // ============================================
 // Product Data (Images + Descriptions)
 // ============================================
-// NOTE: Place the corresponding images inside /images/products/
-// with the exact filenames used in image paths below.
 const productData = {
     'peb-primary-frames': {
         name: 'Primary Frames (Rigid Frames)',
@@ -260,7 +251,7 @@ const productData = {
     },
     'cladding-wall-panels': {
         name: 'Wall Cladding Panels',
-        image: './images/products/Roofing & Cladding Sheets/cladding-wall-panels.jpg',
+        image: './images/products/Roofing & Cladding Sheets/cladding-wall-panels.png',
         description: 'Durable wall cladding panels that enhance building aesthetics while providing protection against environmental exposure.'
     },
     'roofing-color-coated-sheets': {
@@ -337,7 +328,6 @@ let lastFocusedProductItem = null;
 
 /**
  * Helper function to try loading image with fallback support for .jpg and .png
- * Supports both formats automatically
  */
 function loadProductImage(imgElement, imagePath, productName) {
     // Try the provided path first
@@ -363,21 +353,22 @@ function loadProductImage(imgElement, imagePath, productName) {
 
 function openProductModal(product) {
     if (!productModal || !product) return;
-
+    
     // Load image with automatic format fallback (.jpg or .png)
     loadProductImage(productModalImage, product.image, product.name);
     productModalTitle.textContent = product.name;
     productModalDescription.textContent = product.description;
-
+    
     productModal.classList.add('open');
     productModal.setAttribute('aria-hidden', 'false');
 }
 
 function closeProductModal() {
     if (!productModal) return;
+    
     productModal.classList.remove('open');
     productModal.setAttribute('aria-hidden', 'true');
-
+    
     // Restore focus to last clicked product item for accessibility
     if (lastFocusedProductItem) {
         lastFocusedProductItem.focus();
@@ -431,7 +422,7 @@ scrollToTopBtn.addEventListener('click', () => {
 });
 
 // ============================================
-// Lazy Loading for Images (if any are added later)
+// Lazy Loading for Images
 // ============================================
 if ('IntersectionObserver' in window) {
     const imageObserver = new IntersectionObserver((entries, observer) => {
@@ -446,16 +437,15 @@ if ('IntersectionObserver' in window) {
             }
         });
     });
-    
+
     document.querySelectorAll('img[data-src]').forEach(img => {
         imageObserver.observe(img);
     });
 }
 
 // ============================================
-// Form Validation (for future contact form)
+// Form Validation
 // ============================================
-// This section is ready for when a contact form is added
 function validateEmail(email) {
     const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     return re.test(email);
@@ -469,7 +459,6 @@ function validatePhone(phone) {
 // ============================================
 // Performance Optimization
 // ============================================
-// Throttle scroll events
 function throttle(func, wait) {
     let timeout;
     return function executedFunction(...args) {
@@ -489,7 +478,6 @@ window.addEventListener('scroll', throttledUpdateActiveNav);
 // ============================================
 // Logo Display Handler
 // ============================================
-// Ensure both logo and company name text are always visible together
 const logoImg = document.querySelector('.logo-img');
 const logoText = document.querySelector('.logo-text');
 
@@ -524,7 +512,6 @@ document.addEventListener('DOMContentLoaded', () => {
     
     // Add smooth scroll polyfill for older browsers
     if (!('scrollBehavior' in document.documentElement.style)) {
-        // Polyfill would go here if needed
         console.log('Smooth scroll polyfill may be needed for older browsers');
     }
     
@@ -535,12 +522,9 @@ document.addEventListener('DOMContentLoaded', () => {
 // ============================================
 // WhatsApp Integration
 // ============================================
-// The WhatsApp button is already in HTML with the correct link
-// This ensures it works properly on all devices
 const whatsappButton = document.querySelector('.whatsapp-float');
 if (whatsappButton) {
-    whatsappButton.addEventListener('click', (e) => {
-        // Analytics or tracking can be added here if needed
+    whatsappButton.addEventListener('click', () => {
         console.log('WhatsApp contact initiated');
     });
 }
@@ -548,7 +532,6 @@ if (whatsappButton) {
 // ============================================
 // Keyboard Navigation Support
 // ============================================
-// Improve accessibility with keyboard navigation
 document.addEventListener('keydown', (e) => {
     // ESC key closes mobile menu
     if (e.key === 'Escape' && nav.classList.contains('active')) {
@@ -578,5 +561,3 @@ productCategories.forEach(category => {
         header.setAttribute('aria-expanded', isActive ? 'true' : 'false');
     });
 });
-
-
